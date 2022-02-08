@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  redistest:
+    image: "redistester:latest"
+    build:
+      dockerfile: Dockerfile
+      context: .
+    depends_on:
+      - redis
+  redis:
+    image: "redis:latest"
+    build:
+      dockerfile: Dockerfile.redis
+      context: .
+    ports:
+      - "6379:6379"
+    command: "/usr/local/etc/redis/redis.conf"
