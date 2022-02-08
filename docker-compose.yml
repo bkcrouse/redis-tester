@@ -7,6 +7,8 @@ services:
       context: .
     depends_on:
       - redis
+    networks:
+      - redis.net
   redis:
     image: "redis:latest"
     build:
@@ -15,3 +17,9 @@ services:
     ports:
       - "6379:6379"
     command: "/usr/local/etc/redis/redis.conf"
+    networks:
+      - redis.net  
+networks:
+  redis.net:
+    name: redis.net
+    driver: bridge

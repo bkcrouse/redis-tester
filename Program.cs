@@ -17,11 +17,32 @@ class Program
         Parser.Default.ParseArguments<Options>(args)
             .WithParsed<Options>(o =>
             {
-                Console.WriteLine("Saving random data in cache");
-                program.WriteToRedis(o.Items);
+                try
+                {
+                    Console.WriteLine("Saving random data in cache");
+                    program.WriteToRedis(o.Items);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("WriteToRedis() failure.");
+                    Console.WriteLine(e);
+                    Environment.Exit(1);
+                }
 
-                Console.WriteLine("Reading data from cache");
-                program.ReadFromRedis(o.Items);
+                try
+                {
+                    Console.WriteLine("Reading data from cache");
+                    program.ReadFromRedis(o.Items);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("ReadFromRedis() failure.");
+                    Console.WriteLine(e);
+                    Environment.Exit(1);
+                }
+
+                Console.WriteLine("Done.");
+                Environment.Exit(0);
             });
 
     }  
